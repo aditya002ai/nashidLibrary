@@ -25,6 +25,12 @@
 -libraryjars  <java.home>/jmods/java.base.jmod(!**.jar;!module-info.class)
 -printmapping out.map
 
+
+-keep class com.kyc.nashidmrz.Utility {
+  public protected *;
+}
+
+
 -keep public class * {
     public protected *;
 }
@@ -59,7 +65,3 @@
 }
 
 
-
--keep class com.kyc.nashidmrz.Utility {
-  public protected private *;
-}
