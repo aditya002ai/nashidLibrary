@@ -53,7 +53,13 @@
     java.lang.Object readResolve();
 }
 
--keepnames class com.kyc.nashidmrz.Utility {
-
+-keepclassmembers class * {
+    *** get*();
+    void set*(***);
 }
 
+
+
+-keep class com.kyc.nashidmrz.Utility {
+  public protected private *;
+}
