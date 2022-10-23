@@ -2,6 +2,7 @@ package com.kyc.nashidmrz;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -427,6 +428,8 @@ public class CameraRectangle extends AppCompatActivity implements SurfaceHolder.
                         public void onPictureTaken(byte[] bytes) {
                             Log.d("com.omanid.TAG", "onPictureTaken - jpeg");
                             Utility.getInstance().scannedImage = bytes;
+                            setResult(Activity.RESULT_OK,
+                                    new Intent().putExtra("PassportNumber", Utility.getInstance().getPassportNumber()).putExtra("DateOfBirth", Utility.getInstance().getDateOfBirth()).putExtra("ExpiryDate", Utility.getInstance().getExpiryDate()));
                             finish();
                         }
                     });
