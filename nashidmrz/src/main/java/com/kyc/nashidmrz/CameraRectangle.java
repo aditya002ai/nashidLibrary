@@ -20,6 +20,7 @@ import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.kyc.nashidmrz.mrtd2.WaitingForNfcActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -428,9 +430,13 @@ public class CameraRectangle extends AppCompatActivity implements SurfaceHolder.
                         public void onPictureTaken(byte[] bytes) {
                             Log.d("com.omanid.TAG", "onPictureTaken - jpeg");
                             Utility.getInstance().scannedImage = bytes;
-                            setResult(Activity.RESULT_OK,
-                                    new Intent().putExtra("PassportNumber", Utility.getInstance().getPassportNumber()).putExtra("DateOfBirth", Utility.getInstance().getDateOfBirth()).putExtra("ExpiryDate", Utility.getInstance().getExpiryDate()));
-                            finish();
+//                            setResult(Activity.RESULT_OK,
+//                                    new Intent().putExtra("PassportNumber", Utility.getInstance().getPassportNumber()).putExtra("DateOfBirth", Utility.getInstance().getDateOfBirth()).putExtra("ExpiryDate", Utility.getInstance().getExpiryDate()));
+//                            finish();
+
+                            Intent intent = new Intent(CameraRectangle.this, WaitingForNfcActivity.class);
+                            startActivity(intent);
+
                         }
                     });
 

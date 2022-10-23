@@ -7,4 +7,46 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <color name="gray">#818181</color>
+    <color name="purple">#7C2D9E</color>
+    <color name="litegray">#EEEEEE</color>
+    <color name="editgray">#747474</color>
+    <color name="liteblack">#474747</color>
+    <color name="orange">#FF6001</color>
+    <color name="darkpurple">#522864</color>
+    <color name="blue">#00569F</color>
+
+    <color name="readid_wireframe_dark_background_color">#80000000</color>
+    <color name="readid_wireframe_light_background_color">#40000000</color>
+
+    <color name="readid_wireframe_color">#ffffffff</color>
+
+
+    <color name="colorPrimary">#3185FC</color>
+    <color name="colorPrimaryDark">#F7F9FC</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="dark_orange">#da5e22</color>
+    <color name="shade_orange">#f47928</color>
+    <color name="light_orange">#ff9801</color>
+    <color name="light_gray">#d9d9d9</color>
+    <color name="light_gray_new">#F8F8F8</color>
+    <color name="dark_gray">#808080</color>
+
+
+
+    <color name="buttonColor">#51b20d</color>
+    <color name="Background">#F7F9FC</color>
+    <color name="light_pink">#FF9095</color>
+    <color name="light_blue">#6C77E3</color>
+    <color name="light_red">#F8878C</color>
+    <color name="red">#FF0000</color>
+
+
+    <color name="green">#00FF00</color>
+    <color name="real_face_color">#00FFFF</color>
+    <color name="fake_face_color">#F84813</color>
+    <color name="cover_background">#997F7F7F</color>
 </resources>

@@ -12,6 +12,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 //        consumerProguardFiles 'proguard.txt'
+        //klk
 
 
     }
@@ -40,6 +41,15 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.android.gms:play-services-vision:20.0.0'
+
+    // for nfc class
+    implementation files('libs/jj2000_imageutil/jj2000_imageutil.jar')
+    implementation 'com.madgag.spongycastle:core:1.54.0.0'
+    implementation 'com.madgag.spongycastle:pkix:1.54.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.caverock:androidsvg-aar:1.4'
+
+
 
 }
 
