@@ -53,3 +53,7 @@
     java.lang.Object readResolve();
 }
 
+-keepnames class com.kyc.nashidmrz.Utility {
+
+}
+
