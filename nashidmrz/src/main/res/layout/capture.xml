@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:layout_height="match_parent">
+
+        </ImageView>
+
+
+    </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_weight=".3"
+        android:layout_height="match_parent">
+
+        <SurfaceView
+            android:id="@+id/surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_blue_dark">
+
+        <SurfaceView
+            android:layout_alignParentTop="true"
+            android:id="@+id/TransparentView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/txtRecognized"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="10dp"
+            android:gravity="center"
+            android:text="Please read the MRZ code on the back of your Passport"
+            android:padding="10dp"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
