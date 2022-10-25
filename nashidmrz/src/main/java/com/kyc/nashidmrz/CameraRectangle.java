@@ -31,6 +31,7 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.kyc.nashidmrz.mrtd2.HomeLibrary;
 import com.kyc.nashidmrz.mrtd2.WaitingForNfcActivity;
 
 import java.io.File;
@@ -486,6 +487,13 @@ public class CameraRectangle extends AppCompatActivity implements SurfaceHolder.
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Intent i = new Intent(CameraRectangle.this, HomeLibrary.class);
+        startActivity(i);
     }
 }
 

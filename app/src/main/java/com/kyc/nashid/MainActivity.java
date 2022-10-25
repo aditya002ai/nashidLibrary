@@ -10,12 +10,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kyc.nashidmrz.CameraRectangle;
 import com.kyc.nashidmrz.Utility;
+import com.kyc.nashidmrz.mrtd2.HomeLibrary;
 
 public class MainActivity extends AppCompatActivity {
     TextView mrztext;
@@ -36,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_ASK_PERMISSIONS);
 
         } else {
-            Intent i = new Intent(MainActivity.this, CameraRectangle.class);
-            startActivityForResult(i, 503);
+            Intent i = new Intent(MainActivity.this, HomeLibrary.class);
+            startActivity(i);
         }
 
 

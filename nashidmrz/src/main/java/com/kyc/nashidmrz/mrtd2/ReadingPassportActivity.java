@@ -108,7 +108,9 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ReadingPassportActivity.this.finish();
+//                                    ReadingPassportActivity.this.finish();
+                                    Intent i = new Intent(ReadingPassportActivity.this, HomeLibrary.class);
+                                    startActivity(i);
                                 }
                             }).create().show();
                 }
