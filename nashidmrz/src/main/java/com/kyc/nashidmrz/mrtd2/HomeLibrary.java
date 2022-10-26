@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.kyc.nashidmrz.CameraRectangle;
 import com.kyc.nashidmrz.R;
+import com.mv.liveness.LivenessMainActivity;
 
 public class HomeLibrary extends AppCompatActivity {
     Button start;
@@ -39,6 +40,10 @@ public class HomeLibrary extends AppCompatActivity {
                 } else {
                     Intent i = new Intent(HomeLibrary.this, CameraRectangle.class);
                     startActivityForResult(i, 503);
+//
+
+//                    Intent i = new Intent(HomeLibrary.this, LivenessMainActivity.class);
+//                    startActivityForResult(i, 503);
                 }
 
             }

@@ -19,6 +19,7 @@ import com.kyc.nashidmrz.mrtd2.BitiAndroid.AbstractNfcActivity;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Parser.DG1Parser;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Parser.DG2Parser;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Parser.EFSODParser;
+import com.mv.liveness.LivenessMainActivity;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -39,8 +40,9 @@ public class ResultDisplayActivity extends AbstractNfcActivity implements Serial
         clickLiveness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(ResultDisplayActivity.this, LivenessActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(ResultDisplayActivity.this, LivenessMainActivity.class);
+                startActivity(intent);
+
             }
         });
 

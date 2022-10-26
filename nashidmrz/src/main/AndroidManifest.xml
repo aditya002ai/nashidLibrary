@@ -25,6 +25,9 @@
         <activity
             android:name=".mrtd2.HomeLibrary"
             android:screenOrientation="portrait" />
+
+        <activity android:name="com.mv.liveness.LivenessMainActivity" android:exported="true"></activity>
+
     </application>
 </manifest>
 
