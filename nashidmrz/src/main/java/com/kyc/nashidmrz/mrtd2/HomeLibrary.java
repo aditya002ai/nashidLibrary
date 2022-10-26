@@ -18,7 +18,7 @@ import com.kyc.nashidmrz.R;
 import com.mv.liveness.LivenessMainActivity;
 
 public class HomeLibrary extends AppCompatActivity {
-    Button start;
+    Button start, button1;
     int REQUEST_CODE_ASK_PERMISSIONS = 100;
 
 
@@ -27,6 +27,7 @@ public class HomeLibrary extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_library);
         start = findViewById(R.id.button);
+        button1 = findViewById(R.id.button1);
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,10 +41,28 @@ public class HomeLibrary extends AppCompatActivity {
                 } else {
                     Intent i = new Intent(HomeLibrary.this, CameraRectangle.class);
                     startActivityForResult(i, 503);
-//
 
+//
 //                    Intent i = new Intent(HomeLibrary.this, LivenessMainActivity.class);
 //                    startActivityForResult(i, 503);
+                }
+
+            }
+        });
+
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ActivityCompat.checkSelfPermission(HomeLibrary.this,
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(HomeLibrary.this,
+                            new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_ASK_PERMISSIONS);
+
+                } else {
+                    Intent i = new Intent(HomeLibrary.this, LivenessMainActivity.class);
+                    startActivityForResult(i, 503);
                 }
 
             }
