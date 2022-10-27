@@ -25,8 +25,25 @@
         <activity
             android:name=".mrtd2.HomeLibrary"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ComparisionSuccessful"
+            android:screenOrientation="portrait" />
 
-        <activity android:name="com.mv.liveness.LivenessMainActivity" android:exported="true"></activity>
+        <activity
+            android:name=".Camera_Result"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".NFC_result_Activity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".FaceialMatchingResult"
+            android:screenOrientation="portrait" />
+
+        <activity android:name="com.mv.liveness.LivenessMainActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"></activity>
 
     </application>
 </manifest>

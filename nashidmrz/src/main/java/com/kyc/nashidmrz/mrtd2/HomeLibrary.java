@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import com.kyc.nashidmrz.CameraRectangle;
 import com.kyc.nashidmrz.R;
 import com.mv.liveness.LivenessMainActivity;
+import com.mv.liveness.UtilityLive;
 
 public class HomeLibrary extends AppCompatActivity {
     Button start, button1;
@@ -62,7 +63,7 @@ public class HomeLibrary extends AppCompatActivity {
 
                 } else {
                     Intent i = new Intent(HomeLibrary.this, LivenessMainActivity.class);
-                    startActivityForResult(i, 503);
+                    startActivityForResult(i, 504);
                 }
 
             }
@@ -81,6 +82,17 @@ public class HomeLibrary extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+//                    start.setText(Utility.getInstance().getPassportNumber());
+                }
+            }, 0);
+        }
+
+        if (requestCode == 504) {
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    byte[] liveness = UtilityLive.getInstance().liveImage;
 //                    start.setText(Utility.getInstance().getPassportNumber());
                 }
             }, 0);

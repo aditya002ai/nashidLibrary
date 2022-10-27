@@ -3,27 +3,52 @@ package com.kyc.nashidmrz.mrtd2;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
+import com.kyc.nashidmrz.ComparisionSuccessful;
 import com.kyc.nashidmrz.LivenessData;
 import com.kyc.nashidmrz.R;
 import com.kyc.nashidmrz.Utility;
+import com.kyc.nashidmrz.UtilityNFC;
 import com.kyc.nashidmrz.mrtd2.BitiAndroid.AbstractNfcActivity;
 import com.kyc.nashidmrz.mrtd2.BitiAndroid.TagProvider;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Constants.MrtdConstants;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Parser.DG1Parser;
+import com.kyc.nashidmrz.mrtd2.BitiMRTD.Parser.DG2Parser;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Reader.AbstractReader;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Reader.BacInfo;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Reader.DESedeReader;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Reader.ProgressListenerInterface;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Tools.Tools;
+import com.kyc.nashidmrz.mrtd2.interfaceClass.RequestResponse;
+import com.kyc.nashidmrz.mrtd2.requestResponse.OkHttpRequestResponse;
+import com.mv.liveness.LivenessMainActivity;
+import com.mv.liveness.UtilityLive;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 
 public class ReadingPassportActivity extends AbstractNfcActivity implements Serializable {
@@ -40,11 +65,15 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
     private boolean isActivityRunning;
 
     private ProgressBar mrtdProgressBar;
+    ImageView view_photo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reading_passport);
+        view_photo = findViewById(R.id.view_photo);
+
 
 
         this.isActivityRunning = true;
@@ -83,14 +112,34 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
         if (this.dg1 != null && this.dg2 != null) {
             LivenessData.getInstance().setPassportNumber(this.passportNumber);
 
-//            Intent intent = new Intent("bondi.nfcPassportReader.jan.mrtd2.ResultDisplayActivity");
-            Intent intent = new Intent(ReadingPassportActivity.this, ResultDisplayActivity.class);
-            intent.putExtra("dg1", this.dg1);
-            intent.putExtra("dg2", this.dg2);
-            intent.putExtra("sod", this.sod);
-            this.setMrtdProgressBarPercentage(96);
-            startActivity(intent);
-            this.setMrtdProgressBarPercentage(100);
+            UtilityNFC.getInstance().dg1 = this.dg1;
+            UtilityNFC.getInstance().dg2 = this.dg2;
+            UtilityNFC.getInstance().sod = this.sod;
+
+
+            DG2Parser dg2Parser;
+            dg2Parser = new DG2Parser(dg2);
+            Bitmap faceImage = dg2Parser.getBitmap();
+            if(faceImage != null) {
+                LivenessData.getInstance().setNfcBitmap(faceImage);
+            }
+
+
+            Bitmap icon = BitmapFactory.decodeResource(ReadingPassportActivity.this.getResources(),
+                        R.drawable.arun);
+                LivenessData.getInstance().setNfcBitmap(icon);
+
+            Intent i = new Intent(ReadingPassportActivity.this, LivenessMainActivity.class);
+            startActivityForResult(i, 504);
+
+//            Intent intent = new Intent(ReadingPassportActivity.this, ComparisionSuccessful.class);
+////            Intent intent = new Intent(ReadingPassportActivity.this, ResultDisplayActivity.class);
+////            intent.putExtra("dg1", this.dg1);
+////            intent.putExtra("dg2", this.dg2);
+////            intent.putExtra("sod", this.sod);
+//            this.setMrtdProgressBarPercentage(96);
+//            startActivity(intent);
+//            this.setMrtdProgressBarPercentage(100);
         } else {
             System.out.println("dg1 or/and dg2 is/are null");
         }
@@ -320,5 +369,103 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
             return this.isCanceled;
         }
     }
+
+
+    public void callToComparision(){
+        Intent intent = new Intent(ReadingPassportActivity.this, ComparisionSuccessful.class);
+        this.setMrtdProgressBarPercentage(96);
+        startActivity(intent);
+        this.setMrtdProgressBarPercentage(100);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 504) {
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    byte[] liveness = UtilityLive.getInstance().liveImage;
+                    view_photo.setImageBitmap(LivenessData.getInstance().getNfcImage());
+                    OkHttpRequestResponse.getInstance().uploadFile(ReadingPassportActivity.this, byteArray(view_photo), liveness, requestResponseFace);
+
+                }
+            }, 0);
+        }
+    }
+
+    private byte[] byteArray(ImageView imageView) {
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageInByte = baos.toByteArray();
+        return imageInByte;
+    }
+
+
+    RequestResponse requestResponseFace = new RequestResponse() {
+        @Override
+        public void myResponse(final JSONObject jsonObject) {
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void run() {
+                    try {
+                        double value = jsonObject.getDouble("match");
+                        String matchine = "0 %";
+
+                        if(value ==0){
+                            matchine = "100 %";
+                        }else if(value<=0.1){
+                            matchine = "96 %";
+                        }else if(value<=0.2){
+                            matchine = "92 %";
+                        }else if(value<=0.3){
+                            matchine = "88 %";
+                        }else if(value<=0.4){
+                            matchine = "80 %";
+                        } else if(value<=0.5){
+                            matchine = "75 %";
+                        }
+
+                        UtilityNFC.getInstance().matchPercentage = matchine;
+                        callToComparision();
+
+////                        if (value < 0.35) {
+//                        if (value < 0.5) {
+//                            MyUtils.getInstance().setFacecomparisonStatus("Face Comparison Successful");
+//                            myText = "Face Comparison Successful";
+//                            faceComparision = true;
+//
+//                        } else {
+//                            MyUtils.getInstance().setFacecomparisonStatus("Face Comparison Failed");
+//                            faceComparision = false;
+//
+//                        }
+//
+//
+//
+//                        text.setText(myText);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+        }
+
+        @Override
+        public void myJsonArray(JSONArray jsonObject) {
+
+        }
+    };
+
+
 
 }
