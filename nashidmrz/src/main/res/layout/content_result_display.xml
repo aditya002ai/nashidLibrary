@@ -60,6 +60,15 @@
                 android:gravity="center"
                 android:text="Click For Face Comparison"
                 android:textColor="@color/white"></Button>
+            <ImageView
+                android:id="@+id/view_photo"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/photo">
+            </ImageView>
+
         </LinearLayout>
 
 

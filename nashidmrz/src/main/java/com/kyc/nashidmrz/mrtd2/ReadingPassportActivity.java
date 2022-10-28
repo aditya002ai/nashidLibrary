@@ -114,43 +114,46 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
         if (this.dg1 != null && this.dg2 != null) {
             LivenessData.getInstance().setPassportNumber(this.passportNumber);
 
-            UtilityNFC.getInstance().dg1 = this.dg1;
-            UtilityNFC.getInstance().dg2 = this.dg2;
-            UtilityNFC.getInstance().sod = this.sod;
+//            UtilityNFC.getInstance().dg1 = this.dg1;
+//            UtilityNFC.getInstance().dg2 = this.dg2;
+//            UtilityNFC.getInstance().sod = this.sod;
 
-
-            DG2Parser dg2Parser;
-            dg2Parser = new DG2Parser(UtilityNFC.getInstance().dg2);
-            Bitmap faceImage = dg2Parser.getBitmap();
-            if(faceImage != null) {
-                LivenessData.getInstance().setNfcBitmap(faceImage);
-//                LivenessData.getInstance().setNfcBitmap(icon);
-
-            }else {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(ReadingPassportActivity.this,"dg2 file issue",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+//
+//            DG2Parser dg2Parser;
+//            dg2Parser = new DG2Parser(UtilityNFC.getInstance().dg2);
+//            Bitmap faceImage = dg2Parser.getBitmap();
+//            if(faceImage != null) {
+//                LivenessData.getInstance().setNfcBitmap(faceImage);
+////                LivenessData.getInstance().setNfcBitmap(icon);
+//
+//            }else {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(ReadingPassportActivity.this,"dg2 file issue",Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
 
 //
 //            Bitmap icon = BitmapFactory.decodeResource(ReadingPassportActivity.this.getResources(),
 //                        R.drawable.arun);
 //                LivenessData.getInstance().setNfcBitmap(icon);
 
-            Intent i = new Intent(ReadingPassportActivity.this, LivenessMainActivity.class);
-            startActivityForResult(i, 504);
+//            Intent i = new Intent(ReadingPassportActivity.this, LivenessMainActivity.class);
+//            startActivityForResult(i, 504);
 
 //            Intent intent = new Intent(ReadingPassportActivity.this, ComparisionSuccessful.class);
-////            Intent intent = new Intent(ReadingPassportActivity.this, ResultDisplayActivity.class);
-////            intent.putExtra("dg1", this.dg1);
-////            intent.putExtra("dg2", this.dg2);
-////            intent.putExtra("sod", this.sod);
-//            this.setMrtdProgressBarPercentage(96);
-//            startActivity(intent);
-//            this.setMrtdProgressBarPercentage(100);
+            Intent intent = new Intent(ReadingPassportActivity.this, ResultDisplayActivity.class);
+            intent.putExtra("dg1", this.dg1);
+            intent.putExtra("dg2", this.dg2);
+            intent.putExtra("sod", this.sod);
+            UtilityNFC.getInstance().dg1 = this.dg1;
+            UtilityNFC.getInstance().dg2 = this.dg2;
+            UtilityNFC.getInstance().sod = this.sod;
+            this.setMrtdProgressBarPercentage(96);
+            startActivity(intent);
+            this.setMrtdProgressBarPercentage(100);
         } else {
             System.out.println("dg1 or/and dg2 is/are null");
         }

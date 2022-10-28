@@ -2,25 +2,44 @@ package com.kyc.nashidmrz.mrtd2;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 
+import com.kyc.nashidmrz.ComparisionSuccessful;
 import com.kyc.nashidmrz.LivenessData;
+import com.kyc.nashidmrz.MyUtils;
 import com.kyc.nashidmrz.R;
+import com.kyc.nashidmrz.UtilityNFC;
 import com.kyc.nashidmrz.mrtd2.BitiAndroid.AbstractNfcActivity;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Parser.DG1Parser;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Parser.DG2Parser;
 import com.kyc.nashidmrz.mrtd2.BitiMRTD.Parser.EFSODParser;
+import com.kyc.nashidmrz.mrtd2.interfaceClass.RequestResponse;
+import com.kyc.nashidmrz.mrtd2.requestResponse.OkHttpRequestResponse;
 import com.mv.liveness.LivenessMainActivity;
+import com.mv.liveness.UtilityLive;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,18 +49,23 @@ import java.util.GregorianCalendar;
 
 public class ResultDisplayActivity extends AbstractNfcActivity implements Serializable
 {
+    ImageView view_photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_display);
+        view_photo = findViewById(R.id.view_photo);
 
         Button clickLiveness = findViewById(R.id.clickLiveness);
         clickLiveness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ResultDisplayActivity.this, LivenessMainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(ResultDisplayActivity.this, LivenessMainActivity.class);
+//                startActivity(intent);
+
+                            Intent i = new Intent(ResultDisplayActivity.this, LivenessMainActivity.class);
+            startActivityForResult(i, 504);
 
             }
         });
@@ -57,6 +81,11 @@ public class ResultDisplayActivity extends AbstractNfcActivity implements Serial
         byte[] dg1 = (byte[]) getIntent().getSerializableExtra("dg1");
         byte[] dg2 = (byte[]) getIntent().getSerializableExtra("dg2");
         byte[] sod = (byte[]) getIntent().getSerializableExtra("sod");
+
+        UtilityNFC.getInstance().dg1 = dg1;
+        UtilityNFC.getInstance().dg2 = dg2;
+        UtilityNFC.getInstance().sod = sod;
+
 
         DG2Parser dg2Parser;
 
@@ -249,4 +278,155 @@ public class ResultDisplayActivity extends AbstractNfcActivity implements Serial
             return null;
         }
     }
+
+
+
+    public void callToComparision(){
+        Intent intent = new Intent(ResultDisplayActivity.this, ComparisionSuccessful.class);
+        startActivity(intent);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 504) {
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    try {
+                        DG2Parser dg2Parser;
+                        dg2Parser = new DG2Parser(UtilityNFC.getInstance().dg2);
+                        Bitmap faceImage = dg2Parser.getBitmap();
+                        if(faceImage != null) {
+                            LivenessData.getInstance().setNfcBitmap(faceImage);
+                            try {
+                                byte[] liveness = new byte[0];
+                                try {
+                                    liveness = UtilityLive.getInstance().liveImage;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(ResultDisplayActivity.this,"liveness",Toast.LENGTH_SHORT).show();
+
+                                }
+                                view_photo.setImageBitmap(LivenessData.getInstance().getNfcImage());
+                                MyUtils.getInstance().showProgressDialog(ResultDisplayActivity.this);
+
+                                OkHttpRequestResponse.getInstance().uploadFile(ResultDisplayActivity.this, byteArray(view_photo), liveness, requestResponseFace);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(ResultDisplayActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
+                            }
+
+                        }else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(ResultDisplayActivity.this,"dg2 file issue",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(ResultDisplayActivity.this,"dg2 file issue with Exception"+e.toString(),Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+//                    Bitmap icon = BitmapFactory.decodeResource(ReadingPassportActivity.this.getResources(),
+//                        R.drawable.arun);
+//                LivenessData.getInstance().setNfcBitmap(icon);
+
+//                    try {
+//                        byte[] liveness = UtilityLive.getInstance().liveImage;
+//                        view_photo.setImageBitmap(LivenessData.getInstance().getNfcImage());
+//                        MyUtils.getInstance().showProgressDialog(ReadingPassportActivity.this);
+//
+//                        OkHttpRequestResponse.getInstance().uploadFile(ReadingPassportActivity.this, byteArray(view_photo), liveness, requestResponseFace);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                        Toast.makeText(ReadingPassportActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
+//                    }
+
+                }
+            }, 0);
+        }
+    }
+
+    private byte[] byteArray(ImageView imageView) {
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageInByte = baos.toByteArray();
+        return imageInByte;
+    }
+
+
+    RequestResponse requestResponseFace = new RequestResponse() {
+        @Override
+        public void myResponse(final JSONObject jsonObject) {
+
+            MyUtils.getInstance().dismissDialog();
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void run() {
+                    try {
+                        double value = jsonObject.getDouble("match");
+                        String matchine = "0 %";
+
+                        if(value ==0){
+                            matchine = "100 %";
+                        }else if(value<=0.1){
+                            matchine = "96 %";
+                        }else if(value<=0.2){
+                            matchine = "92 %";
+                        }else if(value<=0.3){
+                            matchine = "88 %";
+                        }else if(value<=0.4){
+                            matchine = "80 %";
+                        } else if(value<=0.5){
+                            matchine = "75 %";
+                        }
+
+                        UtilityNFC.getInstance().matchPercentage = matchine;
+                        callToComparision();
+
+////                        if (value < 0.35) {
+//                        if (value < 0.5) {
+//                            MyUtils.getInstance().setFacecomparisonStatus("Face Comparison Successful");
+//                            myText = "Face Comparison Successful";
+//                            faceComparision = true;
+//
+//                        } else {
+//                            MyUtils.getInstance().setFacecomparisonStatus("Face Comparison Failed");
+//                            faceComparision = false;
+//
+//                        }
+//
+//
+//
+//                        text.setText(myText);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+        }
+
+        @Override
+        public void myJsonArray(JSONArray jsonObject) {
+
+        }
+    };
+
+
 }
