@@ -120,7 +120,7 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
 
 
             DG2Parser dg2Parser;
-            dg2Parser = new DG2Parser(dg2);
+            dg2Parser = new DG2Parser(UtilityNFC.getInstance().dg2);
             Bitmap faceImage = dg2Parser.getBitmap();
             if(faceImage != null) {
                 LivenessData.getInstance().setNfcBitmap(faceImage);
@@ -402,20 +402,60 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
                 @Override
                 public void run() {
 
+
+                    try {
+                        DG2Parser dg2Parser;
+                        dg2Parser = new DG2Parser(UtilityNFC.getInstance().dg2);
+                        Bitmap faceImage = dg2Parser.getBitmap();
+                        if(faceImage != null) {
+                          LivenessData.getInstance().setNfcBitmap(faceImage);
+                            try {
+                                byte[] liveness = new byte[0];
+                                try {
+                                    liveness = UtilityLive.getInstance().liveImage;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(ReadingPassportActivity.this,"liveness",Toast.LENGTH_SHORT).show();
+
+                                }
+                                view_photo.setImageBitmap(LivenessData.getInstance().getNfcImage());
+                                MyUtils.getInstance().showProgressDialog(ReadingPassportActivity.this);
+
+                                OkHttpRequestResponse.getInstance().uploadFile(ReadingPassportActivity.this, byteArray(view_photo), liveness, requestResponseFace);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(ReadingPassportActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
+                            }
+
+                        }else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(ReadingPassportActivity.this,"dg2 file issue",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(ReadingPassportActivity.this,"dg2 file issue with Exception"+e.toString(),Toast.LENGTH_SHORT).show();
+
+                    }
+
+
 //                    Bitmap icon = BitmapFactory.decodeResource(ReadingPassportActivity.this.getResources(),
 //                        R.drawable.arun);
 //                LivenessData.getInstance().setNfcBitmap(icon);
 
-                    try {
-                        byte[] liveness = UtilityLive.getInstance().liveImage;
-                        view_photo.setImageBitmap(LivenessData.getInstance().getNfcImage());
-                        MyUtils.getInstance().showProgressDialog(ReadingPassportActivity.this);
-
-                        OkHttpRequestResponse.getInstance().uploadFile(ReadingPassportActivity.this, byteArray(view_photo), liveness, requestResponseFace);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(ReadingPassportActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
-                    }
+//                    try {
+//                        byte[] liveness = UtilityLive.getInstance().liveImage;
+//                        view_photo.setImageBitmap(LivenessData.getInstance().getNfcImage());
+//                        MyUtils.getInstance().showProgressDialog(ReadingPassportActivity.this);
+//
+//                        OkHttpRequestResponse.getInstance().uploadFile(ReadingPassportActivity.this, byteArray(view_photo), liveness, requestResponseFace);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                        Toast.makeText(ReadingPassportActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
+//                    }
 
                 }
             }, 0);

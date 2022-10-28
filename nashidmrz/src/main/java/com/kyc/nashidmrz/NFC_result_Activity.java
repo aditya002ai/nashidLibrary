@@ -64,27 +64,41 @@ public class NFC_result_Activity extends AppCompatActivity {
             }
         });
 
+//        try {
+//            NFCimage.setImageBitmap(LivenessData.getInstance().getNfcImage());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+
+        byte[] dg1 = new byte[0];
+        byte[] sod = new byte[0];
+        try {
+            dg1 = UtilityNFC.getInstance().dg1;
+            byte[] dg2 = UtilityNFC.getInstance().dg2;
+            sod = UtilityNFC.getInstance().sod;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         try {
             NFCimage.setImageBitmap(LivenessData.getInstance().getNfcImage());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        byte[] dg1 = UtilityNFC.getInstance().dg1;
-        byte[] dg2 = UtilityNFC.getInstance().dg2;
-        byte[] sod = UtilityNFC.getInstance().sod;
-
-
         try {
-            NFCimage.setImageBitmap(LivenessData.getInstance().getNfcImage());
+            createDG1List(dg1);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        createDG1List(dg1);
-
-        createSodDataList(sod);
+        try {
+            createSodDataList(sod);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void createDG1List(byte[] dg1)
