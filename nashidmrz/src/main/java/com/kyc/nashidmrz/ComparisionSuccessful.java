@@ -62,12 +62,18 @@ public class ComparisionSuccessful extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Intent i=new Intent(ComparisionSuccessful.this, Camera_Result.class);
+                startActivity(i);
+
 
             }
         });
         NFC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent i=new Intent(ComparisionSuccessful.this, NFC_result_Activity.class);
+                startActivity(i);
 //                Bitmap icon = BitmapFactory.decodeResource(getResources(),
 //                        R.drawable.arun);
 //                LivenessData.getInstance().setNfcBitmap(icon);
@@ -79,6 +85,9 @@ public class ComparisionSuccessful extends AppCompatActivity {
         Facing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent i=new Intent(ComparisionSuccessful.this, FaceialMatchingResult.class);
+                startActivity(i);
 //                Bitmap icon = BitmapFactory.decodeResource(ComparisionSuccessful.this.getResources(),
 //                        R.drawable.arun);
 //                LivenessData.getInstance().setNfcBitmap(icon);

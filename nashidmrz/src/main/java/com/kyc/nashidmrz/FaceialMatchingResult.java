@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGImageView;
+import com.mv.liveness.UtilityLive;
 
 public class FaceialMatchingResult extends AppCompatActivity {
     SVGImageView logo,green,back;
@@ -60,7 +61,7 @@ public class FaceialMatchingResult extends AppCompatActivity {
         try {
             Matrix matrix = new Matrix();
             matrix.postRotate(270);
-            Bitmap bmp = BitmapFactory.decodeByteArray(Utility.getInstance().liveImage, 0, Utility.getInstance().liveImage.length);
+            Bitmap bmp = BitmapFactory.decodeByteArray(UtilityLive.getInstance().liveImage, 0, UtilityLive.getInstance().liveImage.length);
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(bmp, 2048, 2048, true);
             Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
             RealImage.setImageBitmap(rotatedBitmap);

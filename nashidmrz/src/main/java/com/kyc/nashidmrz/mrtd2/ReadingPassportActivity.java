@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import androidx.annotation.RequiresApi;
 
 import com.kyc.nashidmrz.ComparisionSuccessful;
 import com.kyc.nashidmrz.LivenessData;
+import com.kyc.nashidmrz.MyUtils;
 import com.kyc.nashidmrz.R;
 import com.kyc.nashidmrz.Utility;
 import com.kyc.nashidmrz.UtilityNFC;
@@ -122,12 +124,21 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
             Bitmap faceImage = dg2Parser.getBitmap();
             if(faceImage != null) {
                 LivenessData.getInstance().setNfcBitmap(faceImage);
+//                LivenessData.getInstance().setNfcBitmap(icon);
+
+            }else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ReadingPassportActivity.this,"dg2 file issue",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
-
-            Bitmap icon = BitmapFactory.decodeResource(ReadingPassportActivity.this.getResources(),
-                        R.drawable.arun);
-                LivenessData.getInstance().setNfcBitmap(icon);
+//
+//            Bitmap icon = BitmapFactory.decodeResource(ReadingPassportActivity.this.getResources(),
+//                        R.drawable.arun);
+//                LivenessData.getInstance().setNfcBitmap(icon);
 
             Intent i = new Intent(ReadingPassportActivity.this, LivenessMainActivity.class);
             startActivityForResult(i, 504);
@@ -158,8 +169,11 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 //                                    ReadingPassportActivity.this.finish();
-                                    Intent i = new Intent(ReadingPassportActivity.this, HomeLibrary.class);
-                                    startActivity(i);
+//                                    Intent i = new Intent(ReadingPassportActivity.this, HomeLibrary.class);
+//                                    startActivity(i);
+
+//                                    Intent i = new Intent(ReadingPassportActivity.this, LivenessMainActivity.class);
+//                                    startActivityForResult(i, 504);
                                 }
                             }).create().show();
                 }
@@ -387,9 +401,21 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    byte[] liveness = UtilityLive.getInstance().liveImage;
-                    view_photo.setImageBitmap(LivenessData.getInstance().getNfcImage());
-                    OkHttpRequestResponse.getInstance().uploadFile(ReadingPassportActivity.this, byteArray(view_photo), liveness, requestResponseFace);
+
+//                    Bitmap icon = BitmapFactory.decodeResource(ReadingPassportActivity.this.getResources(),
+//                        R.drawable.arun);
+//                LivenessData.getInstance().setNfcBitmap(icon);
+
+                    try {
+                        byte[] liveness = UtilityLive.getInstance().liveImage;
+                        view_photo.setImageBitmap(LivenessData.getInstance().getNfcImage());
+                        MyUtils.getInstance().showProgressDialog(ReadingPassportActivity.this);
+
+                        OkHttpRequestResponse.getInstance().uploadFile(ReadingPassportActivity.this, byteArray(view_photo), liveness, requestResponseFace);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(ReadingPassportActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             }, 0);
@@ -408,6 +434,8 @@ public class ReadingPassportActivity extends AbstractNfcActivity implements Seri
     RequestResponse requestResponseFace = new RequestResponse() {
         @Override
         public void myResponse(final JSONObject jsonObject) {
+
+            MyUtils.getInstance().dismissDialog();
 
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {

@@ -1,4 +1,5 @@
 package com.kyc.nashidmrz;
+
 public class Utility {
     private static final Utility ourInstance = new Utility();
     private String passportNumber;

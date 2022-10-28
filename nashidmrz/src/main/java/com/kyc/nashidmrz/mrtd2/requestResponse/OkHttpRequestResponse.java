@@ -1,7 +1,9 @@
 package com.kyc.nashidmrz.mrtd2.requestResponse;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.kyc.nashidmrz.MyUtils;
 import com.kyc.nashidmrz.mrtd2.interfaceClass.RequestResponse;
 
 import org.json.JSONException;
@@ -35,15 +37,15 @@ public class OkHttpRequestResponse {
     public static Boolean uploadFile(final Context context, byte[] f1, byte[] f2, final RequestResponse requestResponse) {
         try {
 //            String URL = "http://192.168.1.20:5001/face_match";
-            String URL = "http://3.12.252.105:5001/face_match";
+            String URL = "http://185.64.25.107:5001/face_match";
 
             HttpUrl.Builder urlBuilder = HttpUrl.parse(URL).newBuilder();
             String url = urlBuilder.build().toString();
 
             OkHttpClient client = new OkHttpClient.Builder()
-                    .connectTimeout(60, TimeUnit.SECONDS)
-                    .writeTimeout(60, TimeUnit.SECONDS)
-                    .readTimeout(60, TimeUnit.SECONDS)
+                    .connectTimeout(360, TimeUnit.SECONDS)
+                    .writeTimeout(360, TimeUnit.SECONDS)
+                    .readTimeout(360, TimeUnit.SECONDS)
                     .build();
 
 
@@ -68,7 +70,8 @@ public class OkHttpRequestResponse {
 
                 @Override
                 public void onFailure(Call call, IOException e) {
-//                    MyUtils.getInstance().dismissDialog();
+                    MyUtils.getInstance().dismissDialog();
+                    Log.d("error",e.toString());
 
                 }
 
