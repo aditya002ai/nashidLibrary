@@ -379,7 +379,7 @@ public class CameraRectangle extends AppCompatActivity implements SurfaceHolder.
         int canvasW = deviceWidth;
         int canvasH = deviceHeight;
         Point centerOfCanvas = new Point(canvasW / 2, canvasH / 2);
-        int rectW = 800;
+        int rectW = 970;
         int rectH = 700;
         int left = centerOfCanvas.x - (rectW / 2);
         int top = centerOfCanvas.y - (rectH / 2);

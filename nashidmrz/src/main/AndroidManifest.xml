@@ -47,6 +47,10 @@
             android:name=".FaceialMatchingResult"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".SelectDocumentActivity"
+            android:screenOrientation="portrait" />
+
         <activity android:name="com.mv.liveness.LivenessMainActivity"
             android:screenOrientation="portrait"
             android:exported="true"></activity>

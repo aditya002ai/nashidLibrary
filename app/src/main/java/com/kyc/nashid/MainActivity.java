@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.widget.TextView;
 
 import com.kyc.nashidmrz.CameraRectangle;
+import com.kyc.nashidmrz.SelectDocumentActivity;
 import com.kyc.nashidmrz.Utility;
 import com.kyc.nashidmrz.mrtd2.HomeLibrary;
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_ASK_PERMISSIONS);
 
         } else {
-            Intent i = new Intent(MainActivity.this, HomeLibrary.class);
+            Intent i = new Intent(MainActivity.this, SelectDocumentActivity.class);
             startActivity(i);
         }
 
@@ -66,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Intent i = new Intent(MainActivity.this, CameraRectangle.class);
-                startActivityForResult(i, 503);
+                Intent i = new Intent(MainActivity.this, SelectDocumentActivity.class);
+                startActivity(i);
             } else {
 
                 if (ActivityCompat.checkSelfPermission(MainActivity.this,
