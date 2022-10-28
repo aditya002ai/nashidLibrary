@@ -32,6 +32,7 @@
         android:text="@string/reading_passport_progress"
         android:id="@+id/textView2"
         android:gravity="center"
+        android:textColor="@color/black"
         android:layout_above="@+id/mrtdProgressBar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

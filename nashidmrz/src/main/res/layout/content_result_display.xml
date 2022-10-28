@@ -13,7 +13,33 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="25dp"
+
+            android:text="Checking Liveness..."
+            android:id="@+id/textView2"
+            android:gravity="center"
+            android:textColor="@color/black"
+
+
+
+
+
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:orientation="vertical"
+        android:visibility="gone"
         android:layout_height="match_parent">
 
         <LinearLayout

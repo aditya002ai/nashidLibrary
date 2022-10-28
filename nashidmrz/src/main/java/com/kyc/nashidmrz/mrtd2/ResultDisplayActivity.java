@@ -105,6 +105,9 @@ public class ResultDisplayActivity extends AbstractNfcActivity implements Serial
         resultContentViewPager.setAdapter(
                 resultFragmentPagerAdapter
         );
+
+        Intent i = new Intent(ResultDisplayActivity.this, LivenessMainActivity.class);
+        startActivityForResult(i, 504);
     }
 
     private ArrayList<String[]> createSodDataList(byte[] sod)
