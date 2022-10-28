@@ -11,7 +11,9 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,8 @@ public class ComparisionSuccessful extends AppCompatActivity {
     RelativeLayout Camera, NFC, Facing;
     static final public String MRZ_RESULT = "MRZ_RESULT";
     int REQUEST_CODE_ASK_PERMISSIONS = 100;
+    ImageView success,fail;
+    TextView facevalue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,20 @@ public class ComparisionSuccessful extends AppCompatActivity {
         Camera = findViewById(R.id.camera);
         NFC = findViewById(R.id.nfcresult);
         Facing = findViewById(R.id.Faceresult);
+        success = findViewById(R.id.success);
+        fail = findViewById(R.id.fail);
+        facevalue = findViewById(R.id.facevalue);
+        try {
+            if(UtilityNFC.getInstance().confidenceValue<7){
+                success.setVisibility(View.VISIBLE);
+            }else {
+                fail.setVisibility(View.GONE);
+            }
+            facevalue.setText("Face result : "+UtilityNFC.getInstance().matchPercentage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         try {
             SVG svg = SVG.getFromResource(getResources(), R.raw.logo);
             logo.setSVG(svg);

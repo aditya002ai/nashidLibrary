@@ -383,22 +383,45 @@ public class ResultDisplayActivity extends AbstractNfcActivity implements Serial
                     try {
                         double value = jsonObject.getDouble("match");
                         String matchine = "0 %";
+                        int  confidenceValue = 0;
 
                         if(value ==0){
                             matchine = "100 %";
+                            confidenceValue = 0;
                         }else if(value<=0.1){
                             matchine = "96 %";
+                            confidenceValue = 1;
                         }else if(value<=0.2){
                             matchine = "92 %";
+                            confidenceValue = 2;
                         }else if(value<=0.3){
                             matchine = "88 %";
+                            confidenceValue = 3;
                         }else if(value<=0.4){
                             matchine = "80 %";
+                            confidenceValue = 4;
                         } else if(value<=0.5){
                             matchine = "75 %";
+                            confidenceValue = 5;
+                        }else if(value<=0.6){
+                            matchine = "70 %";
+                            confidenceValue = 6;
+                        }else if(value<=0.7){
+                            matchine = "65 %";
+                            confidenceValue = 7;
+                        }else if(value<=0.8){
+                            matchine = "60 %";
+                            confidenceValue = 8;
+                        }else if(value<=0.9){
+                            matchine = "55 %";
+                            confidenceValue = 9;
+                        }else {
+                            matchine = "Confidence value "+value;
+                            confidenceValue = 10;
                         }
 
                         UtilityNFC.getInstance().matchPercentage = matchine;
+                        UtilityNFC.getInstance().confidenceValue = confidenceValue;
                         callToComparision();
 
 ////                        if (value < 0.35) {

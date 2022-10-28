@@ -7,6 +7,7 @@ public class UtilityNFC {
     public byte[] sod;
 
     public String matchPercentage = "0 %";
+    public int confidenceValue = 10;
     public String passportNumber;
     public String dateOfBirth;
     public String dateOfExpiration;

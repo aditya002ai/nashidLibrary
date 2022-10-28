@@ -37,92 +37,131 @@
             android:text="Identity Verification"
             android:textColor="@color/liteblack"
             android:textSize="20dp" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:id="@+id/success"
+            android:visibility="gone"
+            android:src="@drawable/success"
+            >
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:id="@+id/fail"
+
+            android:src="@drawable/fail"
+            >
+
+        </ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/manropeextrabold"
+            android:id="@+id/facevalue"
+
+            android:text=""
+            android:textColor="@color/liteblack"
+            android:textSize="20dp" />
+
+        <RelativeLayout
+            android:id="@+id/camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerInParent="true"
+            android:background="@drawable/results"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manropebold"
+                android:padding="20dp"
+                android:text="Camera Scan Results"
+                android:textColor="@color/white" />
+
+            <com.caverock.androidsvg.SVGImageView
+                android:id="@+id/next"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/nfcresult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/results"
+            android:layout_marginRight="20dp"
+            android:layout_below="@id/camera"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manropebold"
+                android:padding="20dp"
+                android:text="NFC Extracted Result"
+                android:textColor="@color/white" />
+            <com.caverock.androidsvg.SVGImageView
+                android:id="@+id/next1"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/Faceresult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/results"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/nfcresult"
+            android:layout_marginTop="30dp"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manropebold"
+                android:padding="20dp"
+                android:text="Facial Matching Results"
+                android:textColor="@color/white" />
+            <com.caverock.androidsvg.SVGImageView
+                android:id="@+id/next2"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp" />
+        </RelativeLayout>
     </LinearLayout>
-    <RelativeLayout
-        android:id="@+id/camera"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_centerInParent="true"
-        android:background="@drawable/results"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/manropebold"
-            android:padding="20dp"
-            android:text="Camera Scan Results"
-            android:textColor="@color/white" />
-
-        <com.caverock.androidsvg.SVGImageView
-            android:id="@+id/next"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp" />
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/nfcresult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/results"
-        android:layout_marginRight="20dp"
-        android:layout_below="@id/camera"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/manropebold"
-            android:padding="20dp"
-            android:text="NFC Extracted Result"
-            android:textColor="@color/white" />
-        <com.caverock.androidsvg.SVGImageView
-            android:id="@+id/next1"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp" />
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/Faceresult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/results"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@+id/nfcresult"
-        android:layout_marginTop="30dp"
-        android:visibility="visible">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/manropebold"
-            android:padding="20dp"
-            android:text="Facial Matching Results"
-            android:textColor="@color/white" />
-        <com.caverock.androidsvg.SVGImageView
-            android:id="@+id/next2"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
