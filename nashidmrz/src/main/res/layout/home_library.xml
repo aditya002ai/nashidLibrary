@@ -29,11 +29,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Liveness"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/view_photo"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/photo">
+        </ImageView>
 
     </LinearLayout>
 
